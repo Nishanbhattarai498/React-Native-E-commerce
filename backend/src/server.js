@@ -1,9 +1,15 @@
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
 import { ENV } from './config/env.js';
 
 
 const app = express();
+
+app.use(cors({
+  origin: process.env.CLIENT_URL || "*", // Allow all origins for now, or specify your Vercel URL
+  credentials: true
+}));
 
 const __dirname = path.resolve();
 

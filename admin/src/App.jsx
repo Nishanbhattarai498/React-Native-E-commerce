@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const apiUrl = import.meta.env.VITE_API_URL
+  const [health, setHealth] = useState(apiUrl ? 'Loading...' : 'VITE_API_URL not set')
+
+  useEffect(() => {
+    if (apiUrl) {
+      fetch(`${apiUrl}/api/health`)
+        .then(res => res.json())
+        .then(data => setHealth(data.status))
+        .catch(() => setHealth('Error connecting to backend'));
+    }
+  }, [apiUrl]);
 
   return (
     <>
@@ -18,6 +29,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
+        <p>Backend Status: <strong>{health}</strong></p>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>

@@ -1,8 +1,10 @@
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
+import { clerkMiddleware } from '@clerk/express'
 import { ENV } from './config/env.js';
 import { connectDB } from './config/db.js';
+
 import { connect } from 'http2';
 
 
@@ -15,7 +17,10 @@ app.use(cors({
 
 const __dirname = path.resolve();
 
+app.use(clerkMiddleware());// Clerk middleware
+
 app.get("/api/health", (req, res) => {
+
   res.json({ status: "OK" });
 });
 // make our app ready for deployment 

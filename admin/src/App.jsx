@@ -1,46 +1,17 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import { ClerkProvider, SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/clerk-react';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const apiUrl = import.meta.env.VITE_API_URL
-  const [health, setHealth] = useState(apiUrl ? 'Loading...' : 'VITE_API_URL not set')
-
-  useEffect(() => {
-    if (apiUrl) {
-      fetch(`${apiUrl}/api/health`)
-        .then(res => res.json())
-        .then(data => setHealth(data.status))
-        .catch(() => setHealth('Error connecting to backend'));
-    }
-  }, [apiUrl]);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <p>Backend Status: <strong>{health}</strong></p>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <h1>HOME PAGE</h1>
+      <SignedOut>
+        <SignInButton mode="modal" />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+    </div>
   )
 }
 

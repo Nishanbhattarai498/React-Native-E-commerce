@@ -4,8 +4,9 @@ import cors from 'cors';
 import { clerkMiddleware } from '@clerk/express'
 import { ENV } from './config/env.js';
 import { connectDB } from './config/db.js';
+import{ serve } from "inngest/express";
+import {functions,inngest} from "./config/inngest.js";
 
-import { connect } from 'http2';
 
 
 const app = express();
@@ -17,7 +18,11 @@ app.use(cors({
 
 const __dirname = path.resolve();
 
+app.use(express.json())
+
 app.use(clerkMiddleware());// Clerk middleware
+
+app.use("/api/inngest",serve({client:inngest,functions}))
 
 app.get("/api/health", (req, res) => {
 
